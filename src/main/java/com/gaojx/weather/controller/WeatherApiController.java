@@ -31,7 +31,7 @@ public class WeatherApiController {
 	public String hello(@RequestParam(value = "name", required = false) String name) {
 		// say hi
 		log.info("hello name=" + name);
-		return "Hello " + name;
+		return "Hello " + name + "!";
 	}
 
 	@GetMapping("/weather")
