@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class WeatherInfo implements Serializable {
 
 	private static final long serialVersionUID = -1987983585022861141L;
+	// true, if the request is successful; otherwise false.
+	private boolean result;
 	private String cityName;
 	private String updatedTime;
 	private String weather;
@@ -15,8 +17,10 @@ public class WeatherInfo implements Serializable {
 		super();
 	}
 
-	public WeatherInfo(String cityName, String updatedTime, String weather, String temperature, String windSpeed) {
+	public WeatherInfo(boolean result, String cityName, String updatedTime, String weather, String temperature,
+			String windSpeed) {
 		super();
+		this.result = result;
 		this.cityName = cityName;
 		this.updatedTime = updatedTime;
 		this.weather = weather;
@@ -62,6 +66,14 @@ public class WeatherInfo implements Serializable {
 
 	public void setWindSpeed(String windSpeed) {
 		this.windSpeed = windSpeed;
+	}
+
+	public boolean isResult() {
+		return result;
+	}
+
+	public void setResult(boolean result) {
+		this.result = result;
 	}
 
 }

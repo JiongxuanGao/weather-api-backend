@@ -37,21 +37,35 @@ public class WeatherApiController {
 	@GetMapping("/weather")
 	public WeatherInfo getWeatherInfoByCityName(@RequestParam(value = "city") String city,
 			@RequestParam(value = "country", required = false) String country) {
-
-		RestTemplate restTemplate = new RestTemplate();
-		WeatherData weatherData = restTemplate.getForObject(getUrl(city, country), WeatherData.class);
-
-		String cityName = weatherData.getName();
-		long timestamp = weatherData.getDt();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E hh:mm a", Locale.US);
-		String formattedDate = Instant.ofEpochSecond(timestamp).atZone(ZoneId.of("UTC-0")).format(formatter);
-		List<Weather> weathers = weatherData.getWeather();
-		String weather = CollectionUtils.isEmpty(weathers) ? StringUtils.EMPTY : weathers.get(0).getMain();
-		String temperature = String.valueOf(weatherData.getMain().getTemp());
-		String windSpeed = String.format("%.2f", (weatherData.getWind().getSpeed() * 3.6));
-		log.info("cityName=" + cityName + ", updatedTime(UNIX)=" + timestamp + ", updatedTime=" + formattedDate
-				+ ", weather=" + weather + ", temperature=" + temperature + ", windSpeed=" + windSpeed);
-		return new WeatherInfo(cityName, formattedDate, weather, temperature, windSpeed);
+		String cityName = StringUtils.EMPTY, formattedDate = StringUtils.EMPTY, weather = StringUtils.EMPTY,
+				temperature = StringUtils.EMPTY, windSpeed = StringUtils.EMPTY;
+		long timestamp = 0L;
+		boolean result = false;
+		if (StringUtils.isNotBlank(city)) {
+			RestTemplate restTemplate = new RestTemplate();
+			WeatherData weatherData = null;
+			try {
+				weatherData = restTemplate.getForObject(getUrl(city, country), WeatherData.class);
+			} catch (Exception exception) {
+				log.error("Error occured when trying to retrieve weather info for " + city + "," + country
+						+ ". Exception=" + exception);
+				result = false;
+			}
+			if (weatherData != null) {
+				cityName = weatherData.getName();
+				timestamp = weatherData.getDt();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E hh:mm a", Locale.US);
+				formattedDate = Instant.ofEpochSecond(timestamp).atZone(ZoneId.of("UTC-0")).format(formatter);
+				List<Weather> weathers = weatherData.getWeather();
+				weather = CollectionUtils.isEmpty(weathers) ? StringUtils.EMPTY : weathers.get(0).getMain();
+				temperature = String.valueOf(weatherData.getMain().getTemp());
+				windSpeed = String.format("%.2f", (weatherData.getWind().getSpeed() * 3.6));
+				result = true;
+			}
+			log.info("cityName=" + cityName + ", updatedTime(UNIX)=" + timestamp + ", updatedTime=" + formattedDate
+					+ ", weather=" + weather + ", temperature=" + temperature + ", windSpeed=" + windSpeed);
+		}
+		return new WeatherInfo(result, cityName, formattedDate, weather, temperature, windSpeed);
 	}
 
 	private String getUrl(String city, String country) {
