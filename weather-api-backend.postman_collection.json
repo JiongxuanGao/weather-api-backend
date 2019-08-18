@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "b2d5cec9-83f9-430a-80c9-c66d78bd444e",
+		"name": "weather-api-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://3.15.198.18:8081/hello?name=jiongxuan",
+					"protocol": "http",
+					"host": [
+						"3",
+						"15",
+						"198",
+						"18"
+					],
+					"port": "8081",
+					"path": [
+						"hello"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "jiongxuan"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getweatherinfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://3.15.198.18:8081/weather?city=melbourne",
+					"protocol": "http",
+					"host": [
+						"3",
+						"15",
+						"198",
+						"18"
+					],
+					"port": "8081",
+					"path": [
+						"weather"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "melbourne"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
