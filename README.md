@@ -1,16 +1,18 @@
+[TOC]
+
 # weather-api-backend
 This is the repo for WeatherAPI - backend
 
 ## Hello message API
-WHen you call
-```
+When you call
+```http
 localhost:8081/hello?name=XXX
 ```
-it will responde you a salute message.
+it will respond you a salute message.
 
 ## Weather info API
 WHen you call
-```
+```http
 localhost:8081/weather?city=XXX
 ```
 it will responde you the weather info of this city.
@@ -25,6 +27,7 @@ public class WeatherInfo {
 	private String weather;
 	private String temperature;
 	private String windSpeed;
+}
 ```
 
 You can also import the Postman collection and try it out!
