@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,9 @@ public class WeatherApiController {
 	@Value("${weather.api.key}")
 	private String apiKey;
 
+	@Autowired
+	private RestTemplate restTemplate;
+
 	@GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", required = false) String name) {
 		// say hi
@@ -42,7 +46,6 @@ public class WeatherApiController {
 		long timestamp = 0L;
 		boolean result = false;
 		if (StringUtils.isNotBlank(city)) {
-			RestTemplate restTemplate = new RestTemplate();
 			WeatherData weatherData = null;
 			try {
 				weatherData = restTemplate.getForObject(getUrl(city, country), WeatherData.class);
