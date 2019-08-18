@@ -61,8 +61,12 @@ public class WeatherApiController {
 				formattedDate = Instant.ofEpochSecond(timestamp).atZone(ZoneId.of("UTC-0")).format(formatter);
 				List<Weather> weathers = weatherData.getWeather();
 				weather = CollectionUtils.isEmpty(weathers) ? StringUtils.EMPTY : weathers.get(0).getMain();
-				temperature = String.valueOf(weatherData.getMain().getTemp());
-				windSpeed = String.format("%.2f", (weatherData.getWind().getSpeed() * 3.6));
+				if (weatherData.getMain() != null) {
+					temperature = String.valueOf(weatherData.getMain().getTemp());
+				}
+				if (weatherData.getWind() != null) {
+					windSpeed = String.format("%.2f", (weatherData.getWind().getSpeed() * 3.6));
+				}
 				result = true;
 			}
 			log.info("cityName=" + cityName + ", updatedTime(UNIX)=" + timestamp + ", updatedTime=" + formattedDate
